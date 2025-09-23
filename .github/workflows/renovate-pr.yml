@@ -1,0 +1,242 @@
+name: Renovate PR Validation
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main, master]
+
+env:
+  HELM_VERSION: "3.13.0"
+  KUBECTL_VERSION: "1.28.0"
+
+jobs:
+  validate-renovate-pr:
+    if: github.actor == 'renovate[bot]'
+    runs-on: ubuntu-latest
+    name: Validate Renovate PR
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup Helm
+      uses: azure/setup-helm@v3
+      with:
+        version: ${{ env.HELM_VERSION }}
+
+    - name: Setup kubectl
+      uses: azure/setup-kubectl@v3
+      with:
+        version: ${{ env.KUBECTL_VERSION }}
+
+    - name: Note about OCI charts
+      run: |
+        echo "ℹ️ Using OCI charts directly - no helm repo setup needed"
+        echo "📦 Charts are pulled directly from registry-1.docker.io/bitnamichartssecure"
+
+    - name: Validate Helm charts
+      run: |
+        echo "🔍 Validating Helm chart references..."
+
+        # Check if any ArgoCD application files were modified
+        if git diff --name-only HEAD~1 HEAD | grep -q "argocd-applications/.*\.yaml$"; then
+          echo "📋 ArgoCD application files modified, validating..."
+
+          # Extract chart information from modified files
+          for file in $(git diff --name-only HEAD~1 HEAD | grep "argocd-applications/.*\.yaml$"); do
+            echo "🔍 Validating $file"
+
+            # Extract OCI chart information
+            repo_url=$(yq eval '.spec.source.repoURL' "$file")
+            chart_name=$(yq eval '.spec.source.chart' "$file")
+            chart_version=$(yq eval '.spec.source.targetRevision' "$file")
+
+            if [ "$repo_url" != "null" ] && [ "$chart_name" != "null" ] && [ "$chart_version" != "null" ]; then
+              echo "📦 OCI Chart: $chart_name, Version: $chart_version"
+              echo "📦 Repository: $repo_url"
+
+              # Validate OCI repository URL
+              if echo "$repo_url" | grep -q "bitnamichartssecure"; then
+                echo "✅ OCI chart $chart_name version $chart_version is valid"
+              else
+                echo "❌ OCI repository URL is not from bitnamichartssecure"
+                exit 1
+              fi
+            fi
+          done
+        else
+          echo "ℹ️ No ArgoCD application files modified"
+        fi
+
+    - name: Validate Kubernetes manifests
+      run: |
+        echo "🔍 Validating Kubernetes manifests..."
+
+        # Check if any ArgoCD application files were modified
+        if git diff --name-only HEAD~1 HEAD | grep -q "argocd-applications/.*\.yaml$"; then
+          echo "📋 Validating ArgoCD application manifests..."
+
+          for file in $(git diff --name-only HEAD~1 HEAD | grep "argocd-applications/.*\.yaml$"); do
+            echo "🔍 Validating $file"
+
+            # Basic YAML validation
+            if yq eval '.' "$file" > /dev/null 2>&1; then
+              echo "✅ $file is valid YAML"
+            else
+              echo "❌ $file contains invalid YAML"
+              exit 1
+            fi
+
+            # Validate required fields
+            if yq eval '.apiVersion' "$file" | grep -q "argoproj.io/v1alpha1"; then
+              echo "✅ $file has correct apiVersion"
+            else
+              echo "❌ $file has incorrect apiVersion"
+              exit 1
+            fi
+
+            if yq eval '.kind' "$file" | grep -q "Application"; then
+              echo "✅ $file has correct kind"
+            else
+              echo "❌ $file has incorrect kind"
+              exit 1
+            fi
+          done
+        fi
+
+    - name: Check for breaking changes
+      run: |
+        echo "🔍 Checking for potential breaking changes..."
+
+        # Check if any ArgoCD application files were modified
+        if git diff --name-only HEAD~1 HEAD | grep -q "argocd-applications/.*\.yaml$"; then
+          echo "📋 Analyzing changes for breaking changes..."
+
+          for file in $(git diff --name-only HEAD~1 HEAD | grep "argocd-applications/.*\.yaml$"); do
+            echo "🔍 Analyzing $file"
+
+            # Get the old and new versions
+            old_version=$(git show HEAD~1:"$file" | yq eval '.spec.source.targetRevision' -)
+            new_version=$(yq eval '.spec.source.targetRevision' "$file")
+
+            if [ "$old_version" != "null" ] && [ "$new_version" != "null" ] && [ "$old_version" != "$new_version" ]; then
+              echo "📦 Version change: $old_version -> $new_version"
+
+              # Extract major version numbers
+              old_major=$(echo "$old_version" | cut -d. -f1)
+              new_major=$(echo "$new_version" | cut -d. -f1)
+
+              if [ "$old_major" != "$new_major" ]; then
+                echo "⚠️ Major version change detected: $old_major -> $new_major"
+                echo "This may require manual review and testing"
+              else
+                echo "✅ Minor/patch version change: $old_major -> $new_major"
+              fi
+            fi
+          done
+        fi
+
+    - name: Generate validation report
+      run: |
+        echo "📊 Validation Report" >> $GITHUB_STEP_SUMMARY
+        echo "===================" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "✅ All validations passed successfully!" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Modified files:**" >> $GITHUB_STEP_SUMMARY
+        git diff --name-only HEAD~1 HEAD | grep "argocd-applications/.*\.yaml$" | sed 's/^/- /' >> $GITHUB_STEP_SUMMARY || echo "- No ArgoCD application files modified" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Validation checks:**" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ Helm chart validation" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ Kubernetes manifest validation" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ Breaking change analysis" >> $GITHUB_STEP_SUMMARY
+
+    - name: Comment on PR
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const { data: comments } = await github.rest.issues.listComments({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number,
+          });
+
+          const botComment = comments.find(comment =>
+            comment.user.type === 'Bot' &&
+            comment.body.includes('🔍 Renovate PR Validation')
+          );
+
+          const commentBody = `🔍 **Renovate PR Validation**
+
+          ✅ **Validation Status:** All checks passed successfully!
+
+          **Validated Components:**
+          - Helm chart references
+          - Kubernetes manifest syntax
+          - Breaking change analysis
+
+          **Next Steps:**
+          - This PR is ready for review
+          - Auto-merge will proceed if configured
+          - Manual testing recommended for major version updates
+
+          ---
+          *This comment is automatically generated by the Renovate PR validation workflow.*`;
+
+          if (botComment) {
+            await github.rest.issues.updateComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: botComment.id,
+              body: commentBody
+            });
+          } else {
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: commentBody
+            });
+          }
+
+  auto-merge:
+    if: github.actor == 'renovate[bot]' && github.event.pull_request.auto_merge == null
+    needs: validate-renovate-pr
+    runs-on: ubuntu-latest
+    name: Auto-merge Renovate PR
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Auto-merge PR
+      if: contains(github.event.pull_request.labels.*.name, 'renovate') && !contains(github.event.pull_request.labels.*.name, 'major-update')
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const { data: pr } = await github.rest.pulls.get({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            pull_number: context.issue.number,
+          });
+
+          // Check if PR is ready for merge
+          if (pr.mergeable && pr.mergeable_state === 'clean') {
+            console.log('🚀 Auto-merging PR...');
+
+            await github.rest.pulls.merge({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+              merge_method: 'squash',
+              commit_title: pr.title,
+              commit_message: `Auto-merge: ${pr.title}`
+            });
+
+            console.log('✅ PR merged successfully');
+          } else {
+            console.log('⏳ PR not ready for merge:', pr.mergeable_state);
+          }

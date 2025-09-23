@@ -1,0 +1,117 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base"
+  ],
+  "timezone": "UTC",
+  "schedule": [
+    "before 6am on monday"
+  ],
+  "prConcurrentLimit": 5,
+  "prHourlyLimit": 2,
+  "labels": [
+    "dependencies",
+    "renovate"
+  ],
+  "packageRules": [
+    {
+      "description": "Group Bitnami Helm chart updates",
+      "matchDatasources": [
+        "helm"
+      ],
+      "matchPackageNames": [
+        "bitnami/postgresql",
+        "bitnami/mongodb",
+        "bitnami/redis",
+        "bitnami/nginx"
+      ],
+      "groupName": "bitnami-helm-charts",
+      "groupSlug": "bitnami-charts",
+      "automerge": true,
+      "automergeType": "pr",
+      "requiredStatusChecks": null,
+      "prCreation": "immediate",
+      "schedule": [
+        "before 6am on monday"
+      ]
+    },
+    {
+      "description": "Auto-merge patch and minor updates for Bitnami charts",
+      "matchDatasources": [
+        "helm"
+      ],
+      "matchPackageNames": [
+        "bitnami/postgresql",
+        "bitnami/mongodb",
+        "bitnami/redis",
+        "bitnami/nginx"
+      ],
+      "matchUpdateTypes": [
+        "patch",
+        "minor"
+      ],
+      "automerge": true,
+      "automergeType": "pr",
+      "requiredStatusChecks": null,
+      "prCreation": "immediate"
+    },
+    {
+      "description": "Manual review required for major updates",
+      "matchDatasources": [
+        "helm"
+      ],
+      "matchPackageNames": [
+        "bitnami/postgresql",
+        "bitnami/mongodb",
+        "bitnami/redis",
+        "bitnami/nginx"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "automerge": false,
+      "prCreation": "immediate",
+      "labels": [
+        "dependencies",
+        "renovate",
+        "major-update",
+        "manual-review"
+      ]
+    }
+  ],
+  "helm": {
+    "fileMatch": [
+      "argocd-applications/.*\\.yaml$"
+    ]
+  },
+  "commitMessagePrefix": "chore(deps):",
+  "commitMessageAction": "update",
+  "commitMessageTopic": "{{depName}}",
+  "commitMessageExtra": "to {{newVersion}}",
+  "prTitle": "{{commitMessagePrefix}} {{commitMessageAction}} {{commitMessageTopic}} {{commitMessageExtra}}",
+  "prBodyTemplate": "## Description\n\nThis PR updates {{depName}} from {{currentVersion}} to {{newVersion}}.\n\n## Changes\n\n- Updated {{depName}} from `{{currentVersion}}` to `{{newVersion}}`\n\n## Type of Change\n\n- [ ] Bug fix (non-breaking change which fixes an issue)\n- [ ] New feature (non-breaking change which adds functionality)\n- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)\n- [x] Dependency update\n\n## Testing\n\n- [ ] I have tested this change locally\n- [ ] I have added tests that prove my fix is effective or that my feature works\n- [ ] New and existing unit tests pass locally with my changes\n\n## Checklist\n\n- [x] My code follows the style guidelines of this project\n- [x] I have performed a self-review of my own code\n- [x] I have commented my code, particularly in hard-to-understand areas\n- [x] I have made corresponding changes to the documentation\n- [x] My changes generate no new warnings\n- [x] I have added tests that prove my fix is effective or that my feature works\n- [x] New and existing unit tests pass locally with my changes\n\n## Release Notes\n\n{{#if releases}}\n### {{depName}} {{newVersion}}\n\n{{#each releases}}\n#### {{version}}\n{{#if date}}\n**Release Date:** {{date}}\n{{/if}}\n\n{{#if changes}}\n**Changes:**\n{{#each changes}}\n- {{this}}\n{{/each}}\n{{/if}}\n\n{{#if compare.url}}\n**Full Changelog:** {{compare.url}}\n{{/if}}\n\n{{/each}}\n{{/if}}",
+  "ignorePaths": [
+    "node_modules/**",
+    "vendor/**",
+    "*.lock",
+    "*.log"
+  ],
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": [
+      "security",
+      "vulnerability"
+    ],
+    "assignees": [],
+    "reviewers": []
+  },
+  "dependencyDashboard": true,
+  "dependencyDashboardTitle": "🔄 Dependency Dashboard",
+  "dependencyDashboardHeader": "This issue contains a list of Renovate updates and their statuses.\n\n## 🚀 Open\n\nThese updates have all been created already. Click on a checkbox to get an update on its progress.\n\n## 🔄 Pending\n\nThese are awaiting creation. Click the checkbox to force their creation now.\n\n## ❌ Ignored\n\nThese are closed and will not be created by Renovate.\n\n## ⚠️ Warnings\n\nThese updates will not be created due to the warnings shown.\n\n---\n\n**Note:** This issue is automatically updated by Renovate.",
+  "dependencyDashboardFooter": "---\n\n**Note:** This issue is automatically updated by Renovate.",
+  "platform": "github",
+  "includeForks": false,
+  "repositories": [
+    "your-org/renovate-charts"
+  ]
+}

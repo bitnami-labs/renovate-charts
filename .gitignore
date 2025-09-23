@@ -1,0 +1,81 @@
+# GitOps PoC .gitignore
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+*.pid
+argocd-password.txt
+argocd-port-forward.pid
+.port-forward-pids
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Kubernetes files
+kubeconfig*
+*.kubeconfig
+
+# Helm files
+charts/
+Chart.lock
+
+# Docker files
+.dockerignore
+
+# Node.js files (if using any Node.js tools)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python files (if using any Python tools)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Backup files
+*.bak
+*.backup
+*.orig
+
+# Local environment files
+.env
+.env.local
+.env.*.local
+
+# Test files
+test-results/
+coverage/
+
+# Documentation build files
+docs/_build/
+site/
+
+# Renovate files
+renovate.json.bak
+.renovaterc
+
+# GitHub Actions artifacts
+.github/workflows/*.yml.bak
+
