@@ -20,10 +20,9 @@
         "helm"
       ],
       "matchPackageNames": [
-        "bitnami/postgresql",
-        "bitnami/mongodb",
-        "bitnami/redis",
-        "bitnami/nginx"
+        "postgresql",
+        "mongodb",
+        "redis"
       ],
       "groupName": "bitnami-helm-charts",
       "groupSlug": "bitnami-charts",
@@ -41,10 +40,9 @@
         "helm"
       ],
       "matchPackageNames": [
-        "bitnami/postgresql",
-        "bitnami/mongodb",
-        "bitnami/redis",
-        "bitnami/nginx"
+        "postgresql",
+        "mongodb",
+        "redis"
       ],
       "matchUpdateTypes": [
         "patch",
@@ -61,10 +59,9 @@
         "helm"
       ],
       "matchPackageNames": [
-        "bitnami/postgresql",
-        "bitnami/mongodb",
-        "bitnami/redis",
-        "bitnami/nginx"
+        "postgresql",
+        "mongodb",
+        "redis"
       ],
       "matchUpdateTypes": [
         "major"
