@@ -112,6 +112,6 @@
   "platform": "github",
   "includeForks": false,
   "repositories": [
-    "your-org/renovate-charts"
+    "agarcia-oss/renovate-charts"
   ]
 }
