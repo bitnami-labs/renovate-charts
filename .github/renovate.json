@@ -79,8 +79,8 @@
       ]
     }
   ],
-  "helm": {
-    "fileMatch": [
+  "argocd": {
+    "managerFilePatterns": [
       "argocd-applications/.*\\.yaml$"
     ]
   },
