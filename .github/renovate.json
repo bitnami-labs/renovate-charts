@@ -76,9 +76,14 @@
       ]
     }
   ],
+  "helmv3": {
+    "enabled": true
+  },
   "argocd": {
-    "filePatterns": [
-      "argocd-applications/.*\\.yaml$"
+    "enabled": true,
+    "managerFilePatterns": [
+      "argocd-applications/**/*.yaml",
+      "argocd-applications/**/*.yml"
     ]
   },
   "commitMessagePrefix": "chore(deps):",
