@@ -107,10 +107,6 @@
     "assignees": [],
     "reviewers": []
   },
-  "dependencyDashboard": true,
-  "dependencyDashboardTitle": "🔄 Dependency Dashboard",
-  "dependencyDashboardHeader": "This issue contains a list of Renovate updates and their statuses.\n\n## 🚀 Open\n\nThese updates have all been created already. Click on a checkbox to get an update on its progress.\n\n## 🔄 Pending\n\nThese are awaiting creation. Click the checkbox to force their creation now.\n\n## ❌ Ignored\n\nThese are closed and will not be created by Renovate.\n\n## ⚠️ Warnings\n\nThese updates will not be created due to the warnings shown.\n\n---\n\n**Note:** This issue is automatically updated by Renovate.",
-  "dependencyDashboardFooter": "---\n\n**Note:** This issue is automatically updated by Renovate.",
   "platform": "github",
   "forkProcessing": "disabled",
   "repositories": [
