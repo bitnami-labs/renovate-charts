@@ -90,7 +90,6 @@
   "commitMessageAction": "update",
   "commitMessageTopic": "{{depName}}",
   "commitMessageExtra": "to {{newVersion}}",
-  "prTitle": "{{commitMessagePrefix}} {{commitMessageAction}} {{commitMessageTopic}} {{commitMessageExtra}}",
   "prBodyTemplate": "## Description\n\nThis PR updates {{depName}} from {{currentVersion}} to {{newVersion}}.\n\n## Changes\n\n- Updated {{depName}} from `{{currentVersion}}` to `{{newVersion}}`\n\n## Type of Change\n\n- [ ] Bug fix (non-breaking change which fixes an issue)\n- [ ] New feature (non-breaking change which adds functionality)\n- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)\n- [x] Dependency update\n\n## Testing\n\n- [ ] I have tested this change locally\n- [ ] I have added tests that prove my fix is effective or that my feature works\n- [ ] New and existing unit tests pass locally with my changes\n\n## Checklist\n\n- [x] My code follows the style guidelines of this project\n- [x] I have performed a self-review of my own code\n- [x] I have commented my code, particularly in hard-to-understand areas\n- [x] I have made corresponding changes to the documentation\n- [x] My changes generate no new warnings\n- [x] I have added tests that prove my fix is effective or that my feature works\n- [x] New and existing unit tests pass locally with my changes\n\n## Release Notes\n\n{{#if releases}}\n### {{depName}} {{newVersion}}\n\n{{#each releases}}\n#### {{version}}\n{{#if date}}\n**Release Date:** {{date}}\n{{/if}}\n\n{{#if changes}}\n**Changes:**\n{{#each changes}}\n- {{this}}\n{{/each}}\n{{/if}}\n\n{{#if compare.url}}\n**Full Changelog:** {{compare.url}}\n{{/if}}\n\n{{/each}}\n{{/if}}",
   "ignorePaths": [
     "node_modules/**",
@@ -107,9 +106,6 @@
     "assignees": [],
     "reviewers": []
   },
-  "platform": "github",
-  "forkProcessing": "disabled",
-  "repositories": [
-    "agarcia-oss/renovate-charts"
-  ]
+  "dependencyDashboard": false,
+  "forkProcessing": "disabled"
 }
