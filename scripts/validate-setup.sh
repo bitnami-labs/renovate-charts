@@ -250,7 +250,7 @@ main() {
         echo "3. Applications not syncing: Check ArgoCD application status"
         echo "4. Pods not running: Check pod logs and resource constraints"
         echo ""
-        log_info "For detailed troubleshooting, see docs/troubleshooting.md"
+        log_info "For detailed troubleshooting, see docs/setup.md (Troubleshooting section)"
         exit 1
     fi
 }

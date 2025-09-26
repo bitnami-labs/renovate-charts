@@ -52,7 +52,6 @@ All documentation has been updated to reflect the use of Bitnami Charts Secure:
 - `README.md`
 - `docs/setup.md`
 - `docs/architecture.md`
-- `POC_SUMMARY.md`
 
 ### Automation Scripts
 
@@ -115,35 +114,6 @@ If migrating from the standard Bitnami charts repository:
 - **Helm Values**: Existing Helm values files are compatible
 - **Chart Versions**: Same version numbers across both repositories
 - **API Compatibility**: No changes to Kubernetes APIs or resources
-
-## Troubleshooting
-
-### Common Issues
-
-1. **Repository Not Found**
-
-   ```bash
-   # Note: Using OCI charts directly - no helm repo operations needed
-   ```
-
-2. **Chart Version Not Available**
-
-   ```bash
-   # Check available versions
-   helm search repo bitnami/postgresql --versions
-
-   # Note: Using OCI charts directly - no helm repo operations needed
-   ```
-
-3. **ArgoCD Sync Issues**
-
-   ```bash
-   # Check application status
-   kubectl get application postgresql -n argocd
-
-   # Force refresh
-   argocd app get postgresql --refresh
-   ```
 
 ## References
 

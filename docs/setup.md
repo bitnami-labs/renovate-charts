@@ -312,4 +312,4 @@ k3d cluster delete gitops-poc
 - [ArgoCD Documentation](https://argo-cd.readthedocs.io/)
 - [Helm Documentation](https://helm.sh/docs/)
 - [Renovate Bot Documentation](https://docs.renovatebot.com/)
-- [Bitnami Helm Charts](https://github.com/bitnami/charts)
+- [Bitnami Charts Secure](https://hub.docker.com/u/bitnamichartssecure)
