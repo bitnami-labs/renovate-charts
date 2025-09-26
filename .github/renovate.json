@@ -4,9 +4,6 @@
     "config:recommended"
   ],
   "timezone": "UTC",
-  "schedule": [
-    "before 6am on monday"
-  ],
   "prConcurrentLimit": 10,
   "prHourlyLimit": 20,
   "labels": [
@@ -29,10 +26,7 @@
       "automerge": false,
       "ignoreTests": true,
       "prCreation": "immediate",
-      "dependencyDashboardApproval": false,
-      "schedule": [
-        "before 6am on monday"
-      ]
+      "dependencyDashboardApproval": false
     },
     {
       "description": "Auto-merge patch and minor updates for Bitnami charts",
