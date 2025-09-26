@@ -191,7 +191,6 @@ jobs:
           "README.md"
           "docs/setup.md"
           "docs/architecture.md"
-          "docs/troubleshooting.md"
         )
 
         for file in "${required_files[@]}"; do
