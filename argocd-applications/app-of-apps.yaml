@@ -8,7 +8,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/your-org/renovate-charts
+    repoURL: https://github.com/agarcia-oss/renovate-charts
     targetRevision: HEAD
     path: argocd-applications
   destination:
