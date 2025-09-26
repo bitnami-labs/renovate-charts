@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base"
+    "config:recommended"
   ],
   "timezone": "UTC",
   "schedule": [
@@ -28,7 +28,7 @@
       "groupSlug": "bitnami-charts",
       "automerge": true,
       "automergeType": "pr",
-      "requiredStatusChecks": null,
+      "ignoreTests": true,
       "prCreation": "immediate",
       "schedule": [
         "before 6am on monday"
@@ -50,7 +50,7 @@
       ],
       "automerge": true,
       "automergeType": "pr",
-      "requiredStatusChecks": null,
+      "ignoreTests": true,
       "prCreation": "immediate"
     },
     {
@@ -107,7 +107,7 @@
   "dependencyDashboardHeader": "This issue contains a list of Renovate updates and their statuses.\n\n## 🚀 Open\n\nThese updates have all been created already. Click on a checkbox to get an update on its progress.\n\n## 🔄 Pending\n\nThese are awaiting creation. Click the checkbox to force their creation now.\n\n## ❌ Ignored\n\nThese are closed and will not be created by Renovate.\n\n## ⚠️ Warnings\n\nThese updates will not be created due to the warnings shown.\n\n---\n\n**Note:** This issue is automatically updated by Renovate.",
   "dependencyDashboardFooter": "---\n\n**Note:** This issue is automatically updated by Renovate.",
   "platform": "github",
-  "includeForks": false,
+  "forkProcessing": "disabled",
   "repositories": [
     "agarcia-oss/renovate-charts"
   ]
