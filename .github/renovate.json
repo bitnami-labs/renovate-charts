@@ -7,8 +7,8 @@
   "schedule": [
     "before 6am on monday"
   ],
-  "prConcurrentLimit": 5,
-  "prHourlyLimit": 2,
+  "prConcurrentLimit": 10,
+  "prHourlyLimit": 20,
   "labels": [
     "dependencies",
     "renovate"
@@ -26,10 +26,10 @@
       ],
       "groupName": "bitnami-helm-charts",
       "groupSlug": "bitnami-charts",
-      "automerge": true,
-      "automergeType": "pr",
+      "automerge": false,
       "ignoreTests": true,
       "prCreation": "immediate",
+      "dependencyDashboardApproval": false,
       "schedule": [
         "before 6am on monday"
       ]
@@ -48,10 +48,10 @@
         "patch",
         "minor"
       ],
-      "automerge": true,
-      "automergeType": "pr",
+      "automerge": false,
       "ignoreTests": true,
-      "prCreation": "immediate"
+      "prCreation": "immediate",
+      "dependencyDashboardApproval": false
     },
     {
       "description": "Manual review required for major updates",
@@ -68,6 +68,7 @@
       ],
       "automerge": false,
       "prCreation": "immediate",
+      "dependencyDashboardApproval": false,
       "labels": [
         "dependencies",
         "renovate",
