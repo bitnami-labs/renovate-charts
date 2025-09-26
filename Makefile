@@ -224,7 +224,6 @@ docs: ## Open documentation in browser
 	@echo "  📖 README.md"
 	@echo "  📖 docs/setup.md"
 	@echo "  📖 docs/architecture.md"
-	@echo "  📖 docs/troubleshooting.md"
 	@echo ""
 	@echo "Use 'make help' to see all available commands"
 

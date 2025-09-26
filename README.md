@@ -5,9 +5,9 @@ GitHub Actions, and Renovate Bot for managing application lifecycle in Kubernete
 
 ## Project Overview
 
-This PoC establishes a foundational understanding and practical demonstration of
+This PoC establishes a practical demonstration of
 managing the lifecycle of applications embedded with Helm charts using GitOps
-principles. The outcome serves as a practical complement and validation for
+principles. The outcome serves as a complement and validation for
 technical documentation focusing on best practices for application deployment,
 versioning, and dependency management.
 
@@ -116,7 +116,6 @@ versioning, and dependency management.
 │   └── renovate.json          # Renovate Bot configuration
 └── docs/                      # Documentation
     ├── setup.md               # Detailed setup instructions
-    ├── troubleshooting.md     # Common issues and solutions
     └── architecture.md        # Detailed architecture overview
 ```
 
