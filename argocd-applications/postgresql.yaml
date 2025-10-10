@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: registry-1.docker.io/bitnamichartssecure
     chart: postgresql
-    targetRevision: "17.0.10"  # This will be updated by Renovate
+    targetRevision: "18.0.7"  # This will be updated by Renovate
   destination:
     server: https://kubernetes.default.svc
     namespace: app-postgresql
