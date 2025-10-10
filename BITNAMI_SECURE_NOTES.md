@@ -55,7 +55,7 @@ All documentation has been updated to reflect the use of Bitnami Charts Secure:
 
 ### Automation Scripts
 
-- `Makefile`: Added `setup-helm-repo` target for adding the secure repository
+- All automation is now handled through standard kubectl and kind commands
 
 ## Setup Instructions
 
