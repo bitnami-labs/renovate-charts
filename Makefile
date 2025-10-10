@@ -12,11 +12,26 @@ help: ## Show this help message
 # Setup commands
 setup: ## Set up the complete GitOps PoC environment
 	@echo "🚀 Setting up GitOps PoC environment..."
-	./scripts/setup-cluster.sh
+	@echo "🔧 Creating Kubernetes cluster..."
+	@kind create cluster --config kind-config.yaml
+	@kubectl wait --for=condition=Ready nodes --all --timeout=300s
+	@echo "📦 Installing ArgoCD..."
+	@kubectl create namespace argocd --dry-run=client -o yaml | kubectl apply -f -
+	@kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+	@kubectl wait --for=condition=available --timeout=300s deployment/argocd-server -n argocd
+	@echo "🚀 Deploying applications..."
+	@kubectl apply -f argocd-applications/
+	@echo "✅ Setup completed successfully!"
 
 setup-cluster: ## Set up only the Kubernetes cluster and ArgoCD
 	@echo "🔧 Setting up Kubernetes cluster and ArgoCD..."
-	./scripts/setup-cluster.sh --skip-applications
+	@kind create cluster --config kind-config.yaml
+	@kubectl wait --for=condition=Ready nodes --all --timeout=300s
+	@echo "📦 Installing ArgoCD..."
+	@kubectl create namespace argocd --dry-run=client -o yaml | kubectl apply -f -
+	@kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+	@kubectl wait --for=condition=available --timeout=300s deployment/argocd-server -n argocd
+	@echo "✅ Cluster setup completed successfully!"
 
 setup-ingress: ## Install NGINX Ingress Controller
 	@echo "🌐 Installing NGINX Ingress Controller..."
@@ -30,19 +45,28 @@ setup-helm-repo: ## Note: Using OCI charts directly - no helm repo setup needed
 # Cleanup commands
 clean: ## Clean up the entire GitOps PoC environment
 	@echo "🧹 Cleaning up GitOps PoC environment..."
-	./scripts/cleanup.sh
+	@echo "🛑 Stopping port forwards..."
+	@pkill -f "kubectl port-forward" 2>/dev/null || true
+	@echo "🗑️ Deleting Kubernetes cluster..."
+	@kind delete cluster --name gitops-poc 2>/dev/null || echo "  ℹ️ Cluster not found"
+	@echo "📁 Cleaning up temporary files..."
+	@rm -f .port-forward-pids argocd-port-forward.pid 2>/dev/null || true
+	@echo "✅ Cleanup completed successfully!"
 
 clean-cluster: ## Clean up only the Kubernetes cluster
 	@echo "🗑️ Cleaning up Kubernetes cluster..."
-	./scripts/cleanup.sh --cluster-only
+	@kind delete cluster --name gitops-poc 2>/dev/null || echo "  ℹ️ Cluster not found"
+	@echo "✅ Cluster cleanup completed!"
 
 clean-files: ## Clean up temporary files
 	@echo "📁 Cleaning up temporary files..."
-	./scripts/cleanup.sh --files-only
+	@rm -f .port-forward-pids argocd-port-forward.pid 2>/dev/null || true
+	@echo "✅ Files cleanup completed!"
 
 clean-docker: ## Clean up Docker resources
 	@echo "🐳 Cleaning up Docker resources..."
-	./scripts/cleanup.sh --docker-only
+	@docker system prune -f 2>/dev/null || echo "  ℹ️ Docker cleanup completed"
+	@echo "✅ Docker cleanup completed!"
 
 # Status commands
 status: ## Show the status of all components
