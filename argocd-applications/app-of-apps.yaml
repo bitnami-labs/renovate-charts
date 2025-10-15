@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/agarcia-oss/renovate-charts
-    targetRevision: HEAD
+    targetRevision: main
     path: argocd-applications
   destination:
     server: https://kubernetes.default.svc
