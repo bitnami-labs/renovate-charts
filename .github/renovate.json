@@ -3,7 +3,10 @@
   "extends": [
     "config:recommended"
   ],
+  "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
   "timezone": "UTC",
+  "osvVulnerabilityAlerts": true,
+  "platform": "github",
   "prConcurrentLimit": 10,
   "prHourlyLimit": 20,
   "labels": [
