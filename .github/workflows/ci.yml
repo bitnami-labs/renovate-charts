@@ -34,7 +34,7 @@ jobs:
     - name: Note about OCI charts
       run: |
         echo "ℹ️ Using OCI charts directly - no helm repo setup needed"
-        echo "📦 Charts are pulled directly from registry-1.docker.io/bitnamichartssecure"
+        echo "📦 Charts are pulled directly from registry-1.docker.io/bitnamicharts"
 
     - name: Validate ArgoCD applications
       run: |
@@ -77,10 +77,10 @@ jobs:
               echo "📦 Repository: $repo_url"
 
               # Validate OCI repository URL
-              if echo "$repo_url" | grep -q "bitnamichartssecure"; then
+              if echo "$repo_url" | grep -q "bitnamicharts"; then
                 echo "✅ OCI repository URL is valid"
               else
-                echo "❌ OCI repository URL is not from bitnamichartssecure"
+                echo "❌ OCI repository URL is not from bitnamicharts"
                 exit 1
               fi
             fi
