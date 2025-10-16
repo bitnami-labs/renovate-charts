@@ -9,7 +9,7 @@ additional security features, faster downloads, and improved reliability.
 ## Repository Information
 
 - **Repository URL**: `https://charts.bitnami.com/bitnami-secure`
-- **Docker Hub**: [Bitnami Charts Secure](https://hub.docker.com/u/bitnamichartssecure)
+- **Docker Hub**: [Bitnami Charts](https://hub.docker.com/u/bitnamicharts)
 - **Documentation**: [Bitnami Charts Secure Documentation](https://docs.bitnami.com/kubernetes/)
 
 ## Key Differences
@@ -23,7 +23,7 @@ additional security features, faster downloads, and improved reliability.
 
 ### Configuration Changes
 
-- **Source Type**: Using OCI charts directly from `registry-1.docker.io/bitnamichartssecure`
+- **Source Type**: Using OCI charts directly from `registry-1.docker.io/bitnamicharts`
 - **No Helm Repo**: No need to add or manage Helm repositories
 - **Direct Access**: Charts are pulled directly from the OCI registry
 - **Values Compatibility**: Standard Helm values remain compatible
@@ -64,7 +64,7 @@ All documentation has been updated to reflect the use of Bitnami Charts Secure:
 ```bash
 # Note: Using OCI charts directly - no helm repo setup needed
 # The ArgoCD applications reference OCI charts directly from:
-# registry-1.docker.io/bitnamichartssecure
+# registry-1.docker.io/bitnamicharts
 ```
 
 ### Using with ArgoCD
@@ -81,7 +81,7 @@ To verify that OCI charts are being used:
 kubectl get application postgresql -n argocd -o yaml | grep repoURL
 
 # Expected output:
-# repoURL: registry-1.docker.io/bitnamichartssecure
+# repoURL: registry-1.docker.io/bitnamicharts
 ```
 
 ## Benefits
@@ -118,6 +118,6 @@ If migrating from the standard Bitnami charts repository:
 ## References
 
 - [Bitnami Charts Secure Documentation](https://docs.bitnami.com/kubernetes/)
-- [Docker Hub - Bitnami Charts Secure](https://hub.docker.com/u/bitnamichartssecure)
+- [Docker Hub - Bitnami Charts](https://hub.docker.com/u/bitnamicharts)
 - [Bitnami Security Best Practices](https://docs.bitnami.com/kubernetes/security/)
 - [Helm Repository Management](https://helm.sh/docs/helm/helm_repo/)
