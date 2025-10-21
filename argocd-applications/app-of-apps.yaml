@@ -8,7 +8,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/agarcia-oss/renovate-charts
+    repoURL: https://github.com/bitnami-labs/renovate-charts
     targetRevision: main
     path: argocd-applications
   destination:

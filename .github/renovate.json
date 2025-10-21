@@ -104,7 +104,7 @@
   },
   "dependencyDashboard": false,
   "repositories": [
-    "agarcia-oss/renovate-charts"
+    "bitnami-labs/renovate-charts"
   ],
   "forkProcessing": "disabled"
 }
