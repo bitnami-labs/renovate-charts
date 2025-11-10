@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: registry-1.docker.io/bitnamicharts
     chart: redis
-    targetRevision: "23.0.9"  # This will be updated by Renovate
+    targetRevision: "23.2.12"  # This will be updated by Renovate
   destination:
     server: https://kubernetes.default.svc
     namespace: app-redis
